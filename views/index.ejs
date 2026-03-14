@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Todo App</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>Todo List</h1>
+    </header>
+
+    <main class="container">
+
+        <div class="top-bar">
+            <a href="/add-task" class="add-btn">+ Add Task</a>
+        </div>
+
+        <% const activeTasks=tasks.filter(t=> !t.completed); %>
+        <% const completedTasks=tasks.filter(t=> t.completed); %>
+
+            <% if (!tasks.length) { %>
+                    <div class="empty-state">
+                        <h2>No tasks yet</h2>
+                        <p>Click "Add Task" to create your first todo.</p>
+                    </div>
+            <% } %>
+
+            <% if (activeTasks.length) { %>
+                <h2 class="section-title">Active Tasks</h2>
+
+                <ul class="task-list">
+                    <% activeTasks.forEach(task=> { %>
+
+                        <li class="task-item">
+
+                            <div class="task">
+
+                                <form action="/tasks/<%= task.id %>/toggle" method="post">
+                                    <input type="checkbox" onchange="this.form.submit()" <%=task.completed
+                                        ? 'checked' : '' %>
+                                    />
+                                </form>
+
+                                <div class="task-details">
+                                    <p class="task-title">
+                                        <%= task.title %>
+                                    </p>
+                                    <p class="task-dsc">
+                                        <%= task.description %>
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <div class="task-actions">
+                                <a href="/edit/<%= task.id %>" class="edit-btn">Edit</a>
+                                <a href="/delete/<%= task.id %>" class="delete-btn">Delete</a>
+                            </div>
+
+                        </li>
+
+                    <% }) %>
+                </ul>
+            <% } %>
+
+            <% if (completedTasks.length) { %>
+                <h2 class="section-title completed-heading">Completed Tasks</h2>
+
+                <ul class="task-list completed-list">
+                    <% completedTasks.forEach(task=> { %>
+
+                        <li class="task-item">
+
+                            <div class="task">
+
+                                <form action="/tasks/<%= task.id %>/toggle" method="POST">
+                                    <input type="checkbox" onchange="this.form.submit()" checked />
+                                </form>
+
+                                <div class="task-details">
+                                    <p class="task-title completed">
+                                        <%= task.title %>
+                                    </p>
+                                    <p class="task-dsc completed">
+                                        <%= task.description %>
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <div class="task-actions">
+                                <a href="/edit/<%= task.id %>" class="edit-btn">Edit</a>
+                                <a href="/delete/<%= task.id %>" class="delete-btn">Delete</a>
+                            </div>
+
+                        </li>
+
+                    <% }) %>
+                </ul>
+            <% } %>
+
+    </main>
+</body>
+
+</html>

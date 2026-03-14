@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title><%= editTask ? 'Edit Task' : 'Add Task' %></title>
+        <link rel="stylesheet" href="/css/style.css" />
+    </head>
+    <body>
+        <header class="header">
+            <h1><%= editTask ? 'Edit Task' : 'Add Task' %></h1>
+        </header>
+
+        <main class="container">
+            <form class="task-form" action="/tasks/<%= editTask ? editTask.id : '' %>" method="post">
+                <div class="form-group">
+                    <label>Task Title</label>
+                    <input type="text" name="title" required value="<%= editTask ? editTask.title : '' %>" />
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" rows="4"><%= editTask ? editTask.description : '' %></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="add-btn"><%= editTask ? 'Update Task' : 'Save Task' %></button>
+                    <a href="/" class="cancel-btn">Cancel</a>
+                </div>
+            </form>
+        </main>
+    </body>
+</html>
