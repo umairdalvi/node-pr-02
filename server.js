@@ -8,26 +8,21 @@ app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 let tasks = [];
+let completedTasks = [];
+let activeTasks = [];
 
 app.get('/', (req, res) => {
-    res.render('index', { tasks });
+    activeTasks = tasks.filter(t => t.completed === false);
+    completedTasks = tasks.filter(t => t.completed === true);
+
+    res.render('index', { activeTasks, completedTasks });
 });
 
 app.get('/add-task', (req, res) => {
     res.render('add-task', { editTask: null });
 });
 
-app.get('/edit/:id', (req, res) => {
-    const task = tasks.find(t => t.id === req.params.id);
-    res.render('add-task', { editTask: task });
-});
-
-app.get('/delete/:id', (req, res) => {
-    tasks = tasks.filter(t => t.id !== req.params.id);
-    res.redirect('/');
-});
-
-app.post('/tasks', (req, res) => {
+app.post('/create-task', (req, res) => {
     tasks.push({
         ...req.body,
         id: String(Date.now()),
@@ -37,7 +32,12 @@ app.post('/tasks', (req, res) => {
     res.redirect('/');
 });
 
-app.post('/tasks/:id', (req, res) => {
+app.get('/edit-task/:id', (req, res) => {
+    const task = tasks.find(t => t.id === req.params.id);
+    res.render('add-task', { editTask: task });
+});
+
+app.post('/update-task/:id', (req, res) => {
     const { id } = req.params;
 
     tasks = tasks.map(t => (t.id === id ? { ...t, ...req.body, id } : t));
@@ -45,7 +45,12 @@ app.post('/tasks/:id', (req, res) => {
     res.redirect('/');
 });
 
-app.post('/tasks/:id/toggle', (req, res) => {
+app.get('/delete-task/:id', (req, res) => {
+    tasks = tasks.filter(t => t.id !== req.params.id);
+    res.redirect('/');
+});
+
+app.post('/task-status/:id/toggle', (req, res) => {
     const id = req.params.id;
 
     tasks = tasks.map(t => (t.id === id ? { ...t, completed: !t.completed } : t));

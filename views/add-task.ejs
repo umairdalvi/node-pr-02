@@ -7,11 +7,15 @@
     </head>
     <body>
         <header class="header">
-            <h1><%= editTask ? 'Edit Task' : 'Add Task' %></h1>
+            <h1><%= editTask ? 'Update Task' : 'Add Task' %></h1>
         </header>
 
         <main class="container">
-            <form class="task-form" action="/tasks/<%= editTask ? editTask.id : '' %>" method="post">
+            <form
+                class="task-form"
+                action="/<%= editTask ? 'update-task/' + editTask.id : 'create-task'  %>"
+                method="post"
+            >
                 <div class="form-group">
                     <label>Task Title</label>
                     <input type="text" name="title" required value="<%= editTask ? editTask.title : '' %>" />

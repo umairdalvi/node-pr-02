@@ -19,10 +19,7 @@
             <a href="/add-task" class="add-btn">+ Add Task</a>
         </div>
 
-        <% const activeTasks=tasks.filter(t=> !t.completed); %>
-        <% const completedTasks=tasks.filter(t=> t.completed); %>
-
-            <% if (!tasks.length) { %>
+            <% if (!activeTasks.length && !completedTasks.length) { %>
                     <div class="empty-state">
                         <h2>No tasks yet</h2>
                         <p>Click "Add Task" to create your first todo.</p>
@@ -39,7 +36,7 @@
 
                             <div class="task">
 
-                                <form action="/tasks/<%= task.id %>/toggle" method="post">
+                                <form action="/task-status/<%= task.id %>/toggle" method="post">
                                     <input type="checkbox" onchange="this.form.submit()" <%=task.completed
                                         ? 'checked' : '' %>
                                     />
@@ -57,8 +54,8 @@
                             </div>
 
                             <div class="task-actions">
-                                <a href="/edit/<%= task.id %>" class="edit-btn">Edit</a>
-                                <a href="/delete/<%= task.id %>" class="delete-btn">Delete</a>
+                                <a href="/edit-task/<%= task.id %>" class="edit-btn">Edit</a>
+                                <a href="/delete-task/<%= task.id %>" class="delete-btn">Delete</a>
                             </div>
 
                         </li>
@@ -77,7 +74,7 @@
 
                             <div class="task">
 
-                                <form action="/tasks/<%= task.id %>/toggle" method="POST">
+                                <form action="/task-status/<%= task.id %>/toggle" method="post">
                                     <input type="checkbox" onchange="this.form.submit()" checked />
                                 </form>
 
@@ -93,8 +90,8 @@
                             </div>
 
                             <div class="task-actions">
-                                <a href="/edit/<%= task.id %>" class="edit-btn">Edit</a>
-                                <a href="/delete/<%= task.id %>" class="delete-btn">Delete</a>
+                                <a href="/edit-task/<%= task.id %>" class="edit-btn">Edit</a>
+                                <a href="/delete-task/<%= task.id %>" class="delete-btn">Delete</a>
                             </div>
 
                         </li>
